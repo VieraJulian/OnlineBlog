@@ -19,4 +19,7 @@ public class Post {
     private Long id;
     private String title;
     private String description;
+
+    @ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
+    private UserEntity user;
 }
