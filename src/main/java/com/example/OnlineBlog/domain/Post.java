@@ -20,6 +20,7 @@ public class Post {
     private String title;
     private String description;
 
-    @ManyToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 }

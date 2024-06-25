@@ -19,14 +19,23 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true, nullable = false)
     private String username;
+
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne(targetEntity = Role.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private boolean enabled;
+    private boolean accountNotExpired;
+    private boolean accountNotLocked;
+    private boolean credentialNotExpired;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Post> posts;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(mappedBy = "user", targetEntity = Post.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Post> posts;
 }
