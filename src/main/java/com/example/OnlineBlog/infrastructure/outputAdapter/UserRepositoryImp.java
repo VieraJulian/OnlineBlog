@@ -13,21 +13,21 @@ public class UserRepositoryImp implements IUserMethod {
 
     @Override
     public UserEntity save(UserEntity user) {
-        return null;
+        return userRepository.save(user);
     }
 
     @Override
     public Optional<UserEntity> findById(Long id) {
-        return Optional.empty();
+        return userRepository.findById(id);
     }
 
     @Override
     public Optional<UserEntity> findUserEntityByUsername(String username) {
-        return Optional.empty();
+        return userRepository.findUserEntityByUsername(username);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        userRepository.deleteById(id);
     }
 }

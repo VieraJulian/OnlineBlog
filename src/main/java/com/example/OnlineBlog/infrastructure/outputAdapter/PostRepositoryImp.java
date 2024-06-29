@@ -13,16 +13,16 @@ public class PostRepositoryImp implements IPostMethod {
 
     @Override
     public Post save(Post post) {
-        return null;
+        return postRepository.save(post);
     }
 
     @Override
     public Optional<Post> findById(Long id) {
-        return Optional.empty();
+        return postRepository.findById(id);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        postRepository.deleteById(id);
     }
 }

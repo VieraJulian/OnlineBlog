@@ -13,16 +13,16 @@ public class RoleRepositoryImp implements IRoleMethod {
 
     @Override
     public Role save(Role role) {
-        return null;
+        return roleRepository.save(role);
     }
 
     @Override
     public Optional<Role> findById(Long id) {
-        return Optional.empty();
+        return roleRepository.findById(id);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        roleRepository.deleteById(id);
     }
 }

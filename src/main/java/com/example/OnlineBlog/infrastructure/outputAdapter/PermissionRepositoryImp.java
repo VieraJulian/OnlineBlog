@@ -13,16 +13,16 @@ public class PermissionRepositoryImp implements IPermissionMethod {
 
     @Override
     public Permission save(Permission permission) {
-        return null;
+        return permissionRepository.save(permission);
     }
 
     @Override
     public Optional<Permission> findById(Long id) {
-        return Optional.empty();
+        return permissionRepository.findById(id);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        permissionRepository.deleteById(id);
     }
 }
