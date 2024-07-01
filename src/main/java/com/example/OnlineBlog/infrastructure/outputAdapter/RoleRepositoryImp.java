@@ -4,6 +4,7 @@ import com.example.OnlineBlog.domain.Role;
 import com.example.OnlineBlog.infrastructure.outputPort.IRoleMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RoleRepositoryImp implements IRoleMethod {
@@ -19,6 +20,11 @@ public class RoleRepositoryImp implements IRoleMethod {
     @Override
     public Optional<Role> findById(Long id) {
         return roleRepository.findById(id);
+    }
+
+    @Override
+    public List<Role> findAll() {
+        return roleRepository.findAll();
     }
 
     @Override

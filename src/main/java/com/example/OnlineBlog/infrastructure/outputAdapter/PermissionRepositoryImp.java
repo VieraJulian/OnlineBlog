@@ -4,6 +4,7 @@ import com.example.OnlineBlog.domain.Permission;
 import com.example.OnlineBlog.infrastructure.outputPort.IPermissionMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class PermissionRepositoryImp implements IPermissionMethod {
@@ -19,6 +20,11 @@ public class PermissionRepositoryImp implements IPermissionMethod {
     @Override
     public Optional<Permission> findById(Long id) {
         return permissionRepository.findById(id);
+    }
+
+    @Override
+    public List<Permission> findAll() {
+        return permissionRepository.findAll();
     }
 
     @Override
