@@ -17,26 +17,36 @@ public class PostUseCase implements IPostInputPort {
 
     @Override
     public Post save(Post post) {
-        return null;
+        return postMethod.save(post);
     }
 
     @Override
     public Post update(Long id, Post post) {
+        Optional<Post> postDB = postMethod.findById(id);
+
+        if (postDB.isPresent()) {
+            Post postU = postDB.get();
+            postU.setTitle(post.getTitle());
+            postU.setDescription(post.getDescription());
+            return postMethod.save(postU);
+        }
+
         return null;
     }
 
     @Override
     public Optional<Post> findById(Long id) {
-        return Optional.empty();
+        return postMethod.findById(id);
     }
 
     @Override
     public List<Post> findAllPosts(int page, int size) {
-        return List.of();
+        return postMethod.findAll(page, size);
     }
 
     @Override
     public String deleteById(Long id) {
-        return "";
+        postMethod.deleteById(id);
+        return "Post deleted successfully.";
     }
 }

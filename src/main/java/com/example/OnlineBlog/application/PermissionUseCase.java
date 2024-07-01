@@ -1,7 +1,6 @@
 package com.example.OnlineBlog.application;
 
 import com.example.OnlineBlog.domain.Permission;
-import com.example.OnlineBlog.domain.Post;
 import com.example.OnlineBlog.infrastructure.inputPort.IPermissionInputPort;
 import com.example.OnlineBlog.infrastructure.outputPort.IPermissionMethod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,11 @@ public class PermissionUseCase implements IPermissionInputPort {
     public Permission update(Long id, Permission permission) {
         Optional<Permission> permissionDB = permissionMethod.findById(id);
 
-        permissionDB.ifPresent(perm -> perm.setPermissionName(permission.getPermissionName()));
+        if (permissionDB.isPresent()) {
+            Permission perm = permissionDB.get();
+            perm.setPermissionName(permission.getPermissionName());
+            return permissionMethod.save(perm);
+        }
 
         return null;
     }
