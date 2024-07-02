@@ -53,8 +53,8 @@ public class RoleController {
     @GetMapping("/all")
     public ResponseEntity<List<Role>> getAllRole() {
         try {
-            List<Role> rolesList = roleInputPort.findAll();
-            return new ResponseEntity<>(rolesList, HttpStatus.OK);
+            List<Role> roleList = roleInputPort.findAll();
+            return new ResponseEntity<>(roleList, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
