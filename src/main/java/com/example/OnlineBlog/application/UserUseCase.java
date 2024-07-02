@@ -24,6 +24,7 @@ public class UserUseCase implements IUserInputPort {
         Role role = roleMethod.findById(user.getRole().getId()).orElse(null);
 
         if (role != null) {
+            user.setPassword(userMethod.encryptPassword(user.getPassword()));
             user.setRole(role);
             return userMethod.save(user);
         }

@@ -10,5 +10,5 @@ public interface IUserMethod {
         Optional<UserEntity> findById(Long id);
         Optional<UserEntity> findUserEntityByUsername(String username);
         void deleteById(Long id);
-
+        String encryptPassword(String password);
 }
