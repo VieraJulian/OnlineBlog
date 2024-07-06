@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
@@ -14,8 +13,8 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "posts")
-@SQLDelete(sql = "UPDATE u SET enabled=false WHERE id = ?")
-@Where(clause = "enabled = true")
+@SQLDelete(sql = "UPDATE posts SET enabled=false WHERE id = ?")
+//@Where(clause = "enabled = true")
 public class Post {
 
     @Id
@@ -25,7 +24,7 @@ public class Post {
     private String description;
     private boolean enabled;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private UserEntity user;
 }
