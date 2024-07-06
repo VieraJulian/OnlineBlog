@@ -39,7 +39,7 @@ public class UserUseCase implements IUserInputPort {
 
         if (role != null && userDB != null) {
             userDB.setRole(role);
-           return userMethod.save(userDB);
+            return userMethod.save(userDB);
         }
 
         return null;

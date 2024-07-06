@@ -16,8 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE u SET enabled=false WHERE id = ?")
-@Where(clause = "enabled = true")
+@SQLDelete(sql = "UPDATE users SET enabled=false WHERE id = ?")
+//@Where(clause = "enabled = true")
 public class UserEntity {
 
     @Id
@@ -38,7 +38,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Post> posts;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "role_id")
     private Role role;
 

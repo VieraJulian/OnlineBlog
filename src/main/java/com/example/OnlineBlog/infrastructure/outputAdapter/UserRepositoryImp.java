@@ -4,9 +4,11 @@ import com.example.OnlineBlog.domain.UserEntity;
 import com.example.OnlineBlog.infrastructure.outputPort.IUserMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class UserRepositoryImp implements IUserMethod {
 
     @Autowired

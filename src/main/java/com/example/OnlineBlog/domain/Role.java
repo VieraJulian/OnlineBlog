@@ -25,9 +25,6 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "role")
-    private List<UserEntity> users;
-
     @ManyToMany
     @JoinTable(
             name = "roles_permissions",
