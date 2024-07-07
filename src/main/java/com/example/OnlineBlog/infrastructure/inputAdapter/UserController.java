@@ -1,6 +1,7 @@
 package com.example.OnlineBlog.infrastructure.inputAdapter;
 
 import com.example.OnlineBlog.domain.UserEntity;
+import com.example.OnlineBlog.infrastructure.dto.UserEntityDTO;
 import com.example.OnlineBlog.infrastructure.inputPort.IUserInputPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +18,9 @@ public class UserController {
     private IUserInputPort userInputPort;
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserEntity> getUserById(@PathVariable Long id){
+    public ResponseEntity<UserEntityDTO> getUserById(@PathVariable Long id){
         try {
-            Optional<UserEntity> user = userInputPort.findById(id);
+            Optional<UserEntityDTO> user = userInputPort.findById(id);
             return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 
         } catch (Exception e) {
@@ -28,9 +29,9 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user){
+    public ResponseEntity<UserEntityDTO> createUser(@RequestBody UserEntity user){
         try {
-            UserEntity userNew = userInputPort.save(user);
+            UserEntityDTO userNew = userInputPort.save(user);
             return new ResponseEntity<>(userNew, HttpStatus.CREATED);
 
         } catch (Exception e) {
@@ -39,9 +40,9 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<UserEntity> updateUser(@PathVariable Long id, @RequestBody UserEntity user){
+    public ResponseEntity<UserEntityDTO> updateUser(@PathVariable Long id, @RequestBody UserEntity user){
         try {
-            UserEntity userUpdated = userInputPort.update(id, user);
+            UserEntityDTO userUpdated = userInputPort.update(id, user);
             return new ResponseEntity<>(userUpdated, HttpStatus.OK);
 
         } catch (Exception e) {
