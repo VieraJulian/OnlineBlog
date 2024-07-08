@@ -3,6 +3,7 @@ package com.example.OnlineBlog.application;
 import com.example.OnlineBlog.domain.Role;
 import com.example.OnlineBlog.domain.UserEntity;
 import com.example.OnlineBlog.infrastructure.dto.UserEntityDTO;
+import com.example.OnlineBlog.infrastructure.dto.UserEntityUpdateDTO;
 import com.example.OnlineBlog.infrastructure.inputPort.IUserInputPort;
 import com.example.OnlineBlog.infrastructure.outputPort.IRoleMethod;
 import com.example.OnlineBlog.infrastructure.outputPort.IUserMethod;
@@ -48,13 +49,33 @@ public class UserUseCase implements IUserInputPort {
     }
 
     @Override
-    public UserEntityDTO update(Long id, UserEntity user) {
+    public UserEntityDTO update(Long id, UserEntityUpdateDTO user) {
         UserEntity userDB = userMethod.findById(id).orElse(null);
 
-        // Que solo el ususario pueda modificar sus datos, como nombre y contraseña
-        // También que solo el tenga acceso a sus datos
+        if (userDB == null) {
+            return null;
+        }
 
-        return null;
+        if (!user.newPassword().isEmpty() && passwordEncoder.matches(user.password(), userDB.getPassword())) {
+            userDB.setPassword(userMethod.encryptPassword(user.newPassword()));
+        }
+
+        if (!user.newUsername().isEmpty() && userMethod.findUserEntityByUsername(user.newUsername()).isEmpty()) {
+            userDB.setUsername(user.newUsername());
+        }
+
+
+        UserEntity userUpdated = userMethod.save(userDB);
+
+        return UserEntityDTO.builder()
+                .id(userUpdated.getId())
+                .username(userUpdated.getUsername())
+                .enabled(userUpdated.isEnabled())
+                .accountNotExpired(userUpdated.isAccountNotExpired())
+                .accountNotLocked(userUpdated.isAccountNotLocked())
+                .credentialNotExpired(userUpdated.isCredentialNotExpired())
+                .role(userUpdated.getRole())
+                .build();
     }
 
     @Override

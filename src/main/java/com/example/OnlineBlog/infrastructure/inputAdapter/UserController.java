@@ -2,6 +2,7 @@ package com.example.OnlineBlog.infrastructure.inputAdapter;
 
 import com.example.OnlineBlog.domain.UserEntity;
 import com.example.OnlineBlog.infrastructure.dto.UserEntityDTO;
+import com.example.OnlineBlog.infrastructure.dto.UserEntityUpdateDTO;
 import com.example.OnlineBlog.infrastructure.inputPort.IUserInputPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<UserEntityDTO> updateUser(@PathVariable Long id, @RequestBody UserEntity user){
+    public ResponseEntity<UserEntityDTO> updateUser(@PathVariable Long id, @RequestBody UserEntityUpdateDTO user){
         try {
             UserEntityDTO userUpdated = userInputPort.update(id, user);
             return new ResponseEntity<>(userUpdated, HttpStatus.OK);
