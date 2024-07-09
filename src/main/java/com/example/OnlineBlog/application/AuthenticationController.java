@@ -1,6 +1,7 @@
 package com.example.OnlineBlog.application;
 
 import com.example.OnlineBlog.infrastructure.dto.AuthLoginRequestDTO;
+import com.example.OnlineBlog.infrastructure.dto.AuthRegisterRequestDTO;
 import com.example.OnlineBlog.infrastructure.dto.AuthResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,4 +23,10 @@ public class AuthenticationController {
     public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid AuthLoginRequestDTO userRequest) {
         return new ResponseEntity<>(userDetailsService.loginUser(userRequest), HttpStatus.OK);
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody @Valid AuthRegisterRequestDTO authRegisterRequest) {
+        return new ResponseEntity<>(userDetailsService.registerUser(authRegisterRequest));
+    }
+
 }

@@ -2,10 +2,12 @@ package com.example.OnlineBlog.application;
 
 import com.example.OnlineBlog.domain.UserEntity;
 import com.example.OnlineBlog.infrastructure.dto.AuthLoginRequestDTO;
+import com.example.OnlineBlog.infrastructure.dto.AuthRegisterRequestDTO;
 import com.example.OnlineBlog.infrastructure.dto.AuthResponseDTO;
 import com.example.OnlineBlog.infrastructure.outputPort.IUserMethod;
 import com.example.OnlineBlog.infrastructure.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -84,5 +86,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
+    }
+
+    public HttpStatusCode registerUser(AuthRegisterRequestDTO authRegisterRequest) {
     }
 }
