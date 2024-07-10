@@ -4,5 +4,5 @@ import com.example.OnlineBlog.domain.Role;
 import lombok.Builder;
 
 @Builder
-public record UserEntityDTO(Long id, String username, boolean enabled, boolean accountNotExpired, boolean accountNotLocked, boolean credentialNotExpired, Role role) {
+public record UserEntityDTO(Long id, String username, String email, boolean enabled, boolean accountNotExpired, boolean accountNotLocked, boolean credentialNotExpired, Role role) {
 }

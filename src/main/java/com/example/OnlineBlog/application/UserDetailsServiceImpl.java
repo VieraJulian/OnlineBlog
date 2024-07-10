@@ -1,9 +1,11 @@
 package com.example.OnlineBlog.application;
 
+import com.example.OnlineBlog.domain.Role;
 import com.example.OnlineBlog.domain.UserEntity;
 import com.example.OnlineBlog.infrastructure.dto.AuthLoginRequestDTO;
-import com.example.OnlineBlog.infrastructure.dto.AuthRegisterRequestDTO;
 import com.example.OnlineBlog.infrastructure.dto.AuthResponseDTO;
+import com.example.OnlineBlog.infrastructure.dto.SignUpRequestDTO;
+import com.example.OnlineBlog.infrastructure.outputPort.IRoleMethod;
 import com.example.OnlineBlog.infrastructure.outputPort.IUserMethod;
 import com.example.OnlineBlog.infrastructure.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +25,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private IUserMethod userMethod;
+
+    @Autowired
+    private IRoleMethod roleMethod;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -88,6 +94,46 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
-    public HttpStatusCode registerUser(AuthRegisterRequestDTO authRegisterRequest) {
+    public String registerUser(SignUpRequestDTO authRegisterRequest) {
+
+        String username = authRegisterRequest.username();
+        String password = passwordEncoder.encode(authRegisterRequest.password());
+        String email = authRegisterRequest.email();
+        Optional<Role> role = Optional.empty();
+
+        UserEntity userDB = userMethod.findUserEntityByUsername(username).orElse(null);
+
+        if (userDB != null) {
+            return null;
+        }
+
+        if (email.contains("author@onlineblog.com")) {
+            role = roleMethod.findById(2L);
+        } else if (email.contains("@onlineblog.com")) {
+            role = roleMethod.findById(1L);
+        } else {
+            role = roleMethod.findById(3L);
+        }
+
+        if (role.isEmpty()) {
+            return null;
+        }
+
+        UserEntity user;
+        user = new UserEntity();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setEnabled(true);
+        user.setAccountNotExpired(true);
+        user.setAccountNotLocked(true);
+        user.setCredentialNotExpired(true);
+        user.setPosts(null);
+        user.setRole(role.get());
+
+        userMethod.save(user);
+
+        return "User registration successfully.";
+
     }
 }

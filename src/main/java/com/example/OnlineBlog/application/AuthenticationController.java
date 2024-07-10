@@ -1,8 +1,8 @@
 package com.example.OnlineBlog.application;
 
 import com.example.OnlineBlog.infrastructure.dto.AuthLoginRequestDTO;
-import com.example.OnlineBlog.infrastructure.dto.AuthRegisterRequestDTO;
 import com.example.OnlineBlog.infrastructure.dto.AuthResponseDTO;
+import com.example.OnlineBlog.infrastructure.dto.SignUpRequestDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +25,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid AuthRegisterRequestDTO authRegisterRequest) {
-        return new ResponseEntity<>(userDetailsService.registerUser(authRegisterRequest));
+    public ResponseEntity<String> register(@RequestBody @Valid SignUpRequestDTO authRegisterRequest) {
+        return new ResponseEntity<>(userDetailsService.registerUser(authRegisterRequest), HttpStatus.OK);
     }
 
 }
