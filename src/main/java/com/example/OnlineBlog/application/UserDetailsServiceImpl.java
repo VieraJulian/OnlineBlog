@@ -9,7 +9,6 @@ import com.example.OnlineBlog.infrastructure.outputPort.IRoleMethod;
 import com.example.OnlineBlog.infrastructure.outputPort.IUserMethod;
 import com.example.OnlineBlog.infrastructure.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -49,7 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<GrantedAuthority> authorityList = new ArrayList<>();
 
-        authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(user.getRole().toString())));
+        authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(user.getRole().getRole())));
 
         user.getRole().getPermissions()
                 .forEach(permission -> authorityList.add(new SimpleGrantedAuthority(permission.getPermissionName())));
@@ -73,10 +72,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Authentication authentication = this.authenticate(username, password);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String accessToken = jwtUtils.createToken(authentication);
-
-        return new AuthResponseDTO(username, "login ok", accessToken, true);
+        return new AuthResponseDTO(username, "Login ok", accessToken, true);
     }
 
     public Authentication authenticate(String username, String password) {
@@ -87,7 +84,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BadCredentialsException("Invalid username or password");
         }
 
-        if (!passwordEncoder.matches(password, userDetails.getPassword())){
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
             throw new BadCredentialsException("Invalid username or password");
         }
 

@@ -7,6 +7,7 @@ import com.example.OnlineBlog.infrastructure.inputPort.IUserInputPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -19,6 +20,7 @@ public class UserController {
     private IUserInputPort userInputPort;
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated and (hasRole('ADMIN') or hasRole('USER'))")
     public ResponseEntity<UserEntityDTO> getUserById(@PathVariable Long id){
         try {
             Optional<UserEntityDTO> user = userInputPort.findById(id);
@@ -30,6 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("isAuthenticated and hasRole('ADMIN')")
     public ResponseEntity<UserEntityDTO> createUser(@RequestBody UserEntity user){
         try {
             UserEntityDTO userNew = userInputPort.save(user);
@@ -41,6 +44,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("isAuthenticated and (hasRole('ADMIN') or hasRole('USER'))")
     public ResponseEntity<UserEntityDTO> updateUser(@PathVariable Long id, @RequestBody UserEntityUpdateDTO user){
         try {
             UserEntityDTO userUpdated = userInputPort.update(id, user);
@@ -52,6 +56,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("isAuthenticated and (hasRole('ADMIN') or hasRole('USER'))")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
         try {
             String msg = userInputPort.deleteById(id);

@@ -6,6 +6,7 @@ import com.example.OnlineBlog.infrastructure.inputPort.IPostInputPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class PostController {
     private IPostInputPort postInputPort;
 
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated and hasAuthority('READ')")
     public ResponseEntity<PostDTO> getPostById(@PathVariable Long id){
         try {
             Optional<PostDTO> post = postInputPort.findById(id);
@@ -30,6 +32,7 @@ public class PostController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("isAuthenticated and hasAuthority('CREATE')")
     public ResponseEntity<PostDTO> createPost(@RequestBody Post post) {
         try {
             PostDTO postNew = postInputPort.save(post);
@@ -41,6 +44,7 @@ public class PostController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("isAuthenticated and hasAuthority('UPDATE')")
     public ResponseEntity<PostDTO> updatePost(@PathVariable Long id, @RequestBody Post post) {
         try {
             PostDTO postUpdated = postInputPort.update(id, post);
@@ -52,6 +56,7 @@ public class PostController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("isAuthenticated and hasAuthority('READ')")
     public ResponseEntity<List<PostDTO>> getAllPost(@RequestParam int page, @RequestParam int size){
         try {
             List<PostDTO> postList = postInputPort.findAllPosts(page, size);
@@ -63,6 +68,7 @@ public class PostController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("isAuthenticated and hasAuthority('DELETE')")
     public ResponseEntity<String> deletePost(@PathVariable Long id) {
         try {
             String msg = postInputPort.deleteById(id);
