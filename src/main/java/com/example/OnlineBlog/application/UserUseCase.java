@@ -71,6 +71,7 @@ public class UserUseCase implements IUserInputPort {
         return UserEntityDTO.builder()
                 .id(userUpdated.getId())
                 .username(userUpdated.getUsername())
+                .email(userUpdated.getEmail())
                 .enabled(userUpdated.isEnabled())
                 .accountNotExpired(userUpdated.isAccountNotExpired())
                 .accountNotLocked(userUpdated.isAccountNotLocked())

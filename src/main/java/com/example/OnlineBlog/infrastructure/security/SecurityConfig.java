@@ -33,9 +33,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers("/auth/*").permitAll();
-                    authorize.requestMatchers("/permissions/*").hasRole("ADMIN");
-                    authorize.requestMatchers("/roles/*").hasRole("ADMIN");
+                    authorize.requestMatchers("/auth/**").permitAll();
+                    authorize.requestMatchers("/permissions/**").hasRole("ADMIN");
+                    authorize.requestMatchers("/roles/**").hasRole("ADMIN");
+                    authorize.anyRequest().permitAll();
                 })
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
                 .build();
