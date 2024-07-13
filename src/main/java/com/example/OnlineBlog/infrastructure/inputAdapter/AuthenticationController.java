@@ -21,13 +21,21 @@ public class AuthenticationController {
     private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid AuthLoginRequestDTO userRequest) {
-        return new ResponseEntity<>(userDetailsService.loginUser(userRequest), HttpStatus.OK);
+    public ResponseEntity<?> login(@RequestBody @Valid AuthLoginRequestDTO userRequest) {
+        try {
+            return new ResponseEntity<>(userDetailsService.loginUser(userRequest), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid SignUpRequestDTO authRegisterRequest) {
-        return new ResponseEntity<>(userDetailsService.registerUser(authRegisterRequest), HttpStatus.OK);
+    public ResponseEntity<?> register(@RequestBody @Valid SignUpRequestDTO authRegisterRequest) {
+        try {
+            return new ResponseEntity<>(userDetailsService.registerUser(authRegisterRequest), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
 }

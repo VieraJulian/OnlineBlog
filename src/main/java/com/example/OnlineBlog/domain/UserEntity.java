@@ -1,6 +1,5 @@
 package com.example.OnlineBlog.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET enabled=false WHERE id = ?")
-//@Where(clause = "enabled = true")
+// @Where(clause = "enabled = true")
 public class UserEntity {
 
     @Id
@@ -42,7 +41,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Post> posts;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "role_id")
     private Role role;
 
