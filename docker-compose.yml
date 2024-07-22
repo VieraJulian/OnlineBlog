@@ -6,6 +6,10 @@ services:
     restart: always
     ports:
       - '8080:8080'
+    environment:
+      - DATABASE_URL=jdbc:mysql://mysql_db:3306/onlineblog
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=1234
     networks:
       - 'onlineblog-network'
     depends_on:
@@ -21,7 +25,8 @@ services:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=onlineblog
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql-data:/var/lib/mysql
     networks:
       - 'onlineblog-network'
 
@@ -29,4 +34,4 @@ networks:
   onlineblog-network:
 
 volumes:
-  mysql_data:
+  mysql-data:
